@@ -11,11 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
-
-    User tom = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,44 +22,22 @@ public class MainActivity extends AppCompatActivity {
         TextView description = findViewById(R.id.description);
         Button followbtn = findViewById(R.id.followbtn);
 
-/*
+        User tom = new User();
         tom.followed = false;
         tom.name = "MAD ";
         tom.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
-*/
 
         description.setText(tom.description);
 
         Intent recievingEnd = getIntent();
-        Integer id = recievingEnd.getIntExtra("Id", -1);
-
-        ArrayList<User> userList = ListActivity.userList;
-        for(User user: userList){
-            if(user.getId() == id){
-                tom = user;
-            }
-        }
-
         Integer message = recievingEnd.getIntExtra("randNum", 1);
-        String name = recievingEnd.getStringExtra("Name");
-        String desc =  recievingEnd.getStringExtra("Description");
 
-        hello.setText(tom.getName());
-        description.setText(tom.getDescription());
-
-        if(tom.followed == true){
-            followbtn.setText("Unfollow");
-        } else {
-            followbtn.setText("Follow");
-        }
-
-
-
+        hello.setText(tom.name + message);
 
         followbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tom.followed == false){
+                if (!tom.followed){
                     followbtn.setText("Unfollow");
                     tom.followed = true;
 
@@ -84,14 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                }
-
-                //update the arraylist
-                ArrayList<User> userList = ListActivity.userList;
-                for(int i = 0; i < userList.size(); i++){
-                    if(userList.get(i).getId() == tom.getId()){
-                        userList.set(i,tom); // update user follow status
-                    }
                 }
             }
         });
